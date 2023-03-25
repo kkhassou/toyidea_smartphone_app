@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "722918725757",
+    "project_id": "toyidea-smartphone-app",
+    "storage_bucket": "toyidea-smartphone-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722918725757:android:7ac1f1e282f39628c23914",
+        "android_client_info": {
+          "package_name": "com.example.toyidea_smartphone_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722918725757-qckvv7jcpbo0q8gt5g7dpbf9od088drj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCepgg6ctfVPHegqIMpVmCy7SvMSAapKp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722918725757-qckvv7jcpbo0q8gt5g7dpbf9od088drj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "722918725757-0al6u01oqu655c8b39eukir8jdgevqkr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.toyideaSmartphoneApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
