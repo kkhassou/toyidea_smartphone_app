@@ -9,8 +9,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? _email, _password;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
+  // これ、ログイン状態だと、ホーム画面に戻す
   checkAuthentication() async {
     _auth.authStateChanges().listen((user) {
       if (user != null) {
@@ -30,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     //   _formKey.currentState.save();
     try {
       UserCredential user = await _auth.signInWithEmailAndPassword(
-          email: _email!, password: _password!);
+          email: _emailController.text, password: _passwordController.text);
     } catch (e) {
       showError(e.toString());
     }
@@ -85,13 +87,9 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: <Widget>[
                       TextFormField(
-                        // validator: (input) {
-                        //   if (input.isEmpty) {
-                        //     return "Enter Email";
-                        //   }
-                        // },
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(labelText: "Email"),
-                        onSaved: (input) => _email = input,
                       ),
                       TextFormField(
                         // validator: (input) {
@@ -99,9 +97,9 @@ class _LoginPageState extends State<LoginPage> {
                         //     return "Password must be at least 6 characters";
                         //   }
                         // },
-                        decoration: InputDecoration(labelText: "Password"),
+                        controller: _passwordController,
                         obscureText: true,
-                        onSaved: (input) => _password = input,
+                        decoration: InputDecoration(labelText: "Password"),
                       ),
                       SizedBox(height: 20.0),
                       ElevatedButton(
