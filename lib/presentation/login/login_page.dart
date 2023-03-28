@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   checkAuthentication() async {
     _auth.authStateChanges().listen((user) {
       if (user != null) {
-        Navigator.pushReplacementNamed(context, "/");
+        Navigator.pop(context);
       }
     });
   }
@@ -73,13 +73,6 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: <Widget>[
               SizedBox(height: 40.0),
-              // Container(
-              //   height: 200,
-              //   child: Image(
-              //     image: AssetImage("assets/images/login_logo.png"),
-              //     fit: BoxFit.contain,
-              //   ),
-              // ),
               Container(
                 padding: EdgeInsets.all(32),
                 child: Form(
@@ -92,11 +85,6 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(labelText: "Email"),
                       ),
                       TextFormField(
-                        // validator: (input) {
-                        //   if (input.length < 6) {
-                        //     return "Password must be at least 6 characters";
-                        //   }
-                        // },
                         controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(labelText: "Password"),
@@ -114,10 +102,6 @@ class _LoginPageState extends State<LoginPage> {
                           "Login",
                           style: TextStyle(color: Colors.white, fontSize: 20.0),
                         ),
-                        // color: Colors.blue,
-                        // shape: RoundedRectangleBorder(
-                        //   borderRadius: BorderRadius.circular(15.0),
-                        // ),
                       )
                     ],
                   ),

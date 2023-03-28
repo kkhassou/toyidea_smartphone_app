@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/randam_icon.dart';
@@ -11,6 +12,21 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // これ、ログイン状態だと、ホーム画面に戻す
+  checkAuthentication() async {
+    _auth.authStateChanges().listen((user) {
+      if (user != null) {
+        Navigator.pop(context);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.checkAuthentication();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +78,18 @@ class _SignupPageState extends State<SignupPage> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Color.fromARGB(200, 30, 144, 255)),
                     ),
-                    onPressed: () {
-                      // 新規登録処理を実行
-                      print('メールアドレス: ${_emailController.text}');
-                      print('パスワード: ${_passwordController.text}');
+                    onPressed: () async {
+                      try {
+                        // メール/パスワードでユーザー登録
+                        final result =
+                            await _auth.createUserWithEmailAndPassword(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
+                      } catch (e) {
+                        /* --- 省略 --- */
+                        print("新規登録失敗");
+                      }
                     },
                     child: Text('新規登録'),
                   ),
