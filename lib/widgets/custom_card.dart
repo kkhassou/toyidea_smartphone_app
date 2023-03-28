@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../api/api_client.dart';
+
 class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CustomCard extends StatelessWidget {
                     Color.fromARGB(200, 50, 205, 50)),
               ),
               onPressed: () {
+                callApi();
                 Navigator.of(context).pushNamed('/login');
               },
               child: Text('ログイン'),
