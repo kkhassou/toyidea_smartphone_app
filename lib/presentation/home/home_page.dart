@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool loginFlag = false;
   double? underbutton_from_top;
   double? uppertitle_from_top;
   @override
@@ -25,16 +24,16 @@ class _HomePageState extends State<HomePage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double rightEdgePosition = screenWidth - rightPadding;
     User? user;
-    if (loginFlag) {
-      underbutton_from_top = 170.0;
-    } else {
-      underbutton_from_top = 120.0;
-    }
     return StreamBuilder<User?>(
         stream: _auth.authStateChanges(),
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             user = snapshot.data;
+            if (user != null) {
+              underbutton_from_top = 120.0;
+            } else {
+              underbutton_from_top = 170.0;
+            }
           }
           return Scaffold(
             appBar: AppBar(
@@ -89,12 +88,12 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.fromLTRB(50, 50, 0, 0),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepOrangeAccent),
+                              backgroundColor: Colors.orange),
                           child: Text(
                             "はじめる",
                             style: TextStyle(fontSize: 40),
                           ),
-                          onPressed: loginFlag ? () {} : null,
+                          onPressed: user != null ? () {} : null,
                         )),
                   ]),
                   Padding(
@@ -102,23 +101,23 @@ class _HomePageState extends State<HomePage> {
                           EdgeInsets.fromLTRB(150, underbutton_from_top!, 0, 0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurpleAccent),
+                            backgroundColor: Colors.orange),
                         child: Text(
                           "過去の空雨傘",
                           style: TextStyle(fontSize: 30),
                         ),
-                        onPressed: loginFlag ? () {} : null,
+                        onPressed: user != null ? () {} : null,
                       )),
                   Padding(
                       padding: const EdgeInsets.fromLTRB(150, 30, 0, 0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurpleAccent),
+                            backgroundColor: Colors.orange),
                         child: Text(
                           "模範の空雨傘",
                           style: TextStyle(fontSize: 30),
                         ),
-                        onPressed: loginFlag ? () {} : null,
+                        onPressed: user != null ? () {} : null,
                       )),
                 ],
               ),
