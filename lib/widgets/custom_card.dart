@@ -32,7 +32,7 @@ class CustomCard extends StatelessWidget {
                     Color.fromARGB(200, 50, 205, 50)),
               ),
               onPressed: () {
-                callApi();
+                // callApi();
                 Navigator.of(context).pushNamed('/login');
               },
               child: Text('ログイン'),

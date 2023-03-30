@@ -93,7 +93,12 @@ class _HomePageState extends State<HomePage> {
                             "はじめる",
                             style: TextStyle(fontSize: 40),
                           ),
-                          onPressed: user != null ? () {} : null,
+                          onPressed: user != null
+                              ? () {
+                                  Navigator.of(context)
+                                      .pushNamed('/simple_input');
+                                }
+                              : null,
                         )),
                   ]),
                   Padding(
