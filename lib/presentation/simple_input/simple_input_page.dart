@@ -9,11 +9,11 @@ class SimpleInputPage extends StatefulWidget {
 }
 
 class _SimpleInputPageState extends State<SimpleInputPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
+  TextEditingController _skyController = TextEditingController();
+  TextEditingController _rainController = TextEditingController();
+  TextEditingController _umbrellaController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   // これ、ログイン状態だと、ホーム画面に戻す
   checkAuthentication() async {
     _auth.authStateChanges().listen((user) {
@@ -72,9 +72,14 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("空", style: TextStyle(fontSize: 30)),
+                    Row(
+                      children: [
+                        Text("空", style: TextStyle(fontSize: 30)),
+                        Text("　例）空を見たら", style: TextStyle(fontSize: 20)),
+                      ],
+                    ),
                     TextFormField(
-                      controller: _emailController,
+                      controller: _skyController,
                     ),
                     SizedBox(height: 5.0),
                     Row(
@@ -98,9 +103,14 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                         ),
                       ],
                     ),
-                    Text("雨", style: TextStyle(fontSize: 30)),
+                    Row(
+                      children: [
+                        Text("雨", style: TextStyle(fontSize: 30)),
+                        Text("　例）雨が降りそう", style: TextStyle(fontSize: 20)),
+                      ],
+                    ),
                     TextFormField(
-                      controller: _passwordController,
+                      controller: _rainController,
                     ),
                     SizedBox(height: 5.0),
                     Row(
@@ -124,14 +134,14 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                         ),
                       ],
                     ),
-                    Text(
-                      "傘",
-                      style: TextStyle(
-                        fontSize: 30,
-                      ),
+                    Row(
+                      children: [
+                        Text("傘", style: TextStyle(fontSize: 30)),
+                        Text("　例）傘を持って出た", style: TextStyle(fontSize: 20)),
+                      ],
                     ),
                     TextFormField(
-                      controller: _passwordController,
+                      controller: _umbrellaController,
                     ),
                     SizedBox(height: 5.0),
                     Row(
@@ -170,7 +180,14 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                           ),
                           onPressed: () {
                             // ここでAPIを呼ぶ
-                            s_r_u_input_api();
+                            s_r_u_input_api(
+                                _auth.currentUser?.uid as String,
+                                _skyController.text,
+                                _rainController.text,
+                                _umbrellaController.text);
+                            _skyController.clear();
+                            _rainController.clear();
+                            _umbrellaController.clear();
                           },
                           child: Text(
                             "保存",
@@ -191,13 +208,37 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                             minimumSize:
                                 MaterialStateProperty.all<Size>(Size(80, 40)),
                             backgroundColor: MaterialStateProperty.all<Color>(
-                                Color.fromARGB(199, 205, 140, 50)),
+                                Color.fromARGB(198, 197, 205, 50)),
                           ),
                           onPressed: () {},
                           child: Text(
                             "模範ランダム",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 15.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.0),
+                    Row(
+                      children: [
+                        Container(
+                          width: rightEdgePosition + 40,
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            minimumSize:
+                                MaterialStateProperty.all<Size>(Size(80, 40)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Color.fromARGB(198, 50, 205, 159)),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/simple_list');
+                          },
+                          child: Text(
+                            "一覧画面へ",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.0),
                           ),
                         ),
                       ],
