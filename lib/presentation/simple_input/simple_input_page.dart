@@ -232,8 +232,18 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 Color.fromARGB(198, 50, 205, 159)),
                           ),
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('/simple_list');
+                          onPressed: () async {
+                            var result = await Navigator.of(context)
+                                .pushNamed('/simple_list');
+
+                            if (result != null &&
+                                result is Map<String, dynamic>) {
+                              setState(() {
+                                _skyController.text = result['sky'];
+                                _rainController.text = result['rain'];
+                                _umbrellaController.text = result['umbrella'];
+                              });
+                            }
                           },
                           child: Text(
                             "一覧画面へ",

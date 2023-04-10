@@ -10,7 +10,6 @@ class SimpleListPage extends StatefulWidget {
 }
 
 class _SimpleListPageState extends State<SimpleListPage> {
-  // final List<String> items = List<String>.generate(50, (i) => "Item ${i + 1}");
   List<Map<String, dynamic>>? items;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   // これ、ログイン状態だと、ホーム画面に戻す
@@ -69,6 +68,32 @@ class _SimpleListPageState extends State<SimpleListPage> {
                     "傘: " + items![index]["umbrella"]!,
                     style:
                         TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          minimumSize:
+                              MaterialStateProperty.all<Size>(Size(40, 30)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Color.fromARGB(200, 50, 205, 50)),
+                        ),
+                        onPressed: () {
+                          // 前の画面に値を渡すにはどうしたらいいだろう
+                          // 複数の値を格納するためのMapを作成
+                          Map<String, dynamic> returnedValues = {
+                            'sky': items![index]["sky"]!,
+                            'rain': items![index]["rain"]!,
+                            'umbrella': items![index]["umbrella"]!,
+                          };
+                          Navigator.pop(context, returnedValues);
+                        },
+                        child: Text(
+                          "再考する",
+                          style: TextStyle(color: Colors.white, fontSize: 13.0),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
