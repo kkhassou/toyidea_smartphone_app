@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:toyidea_smartphone_app/presentation/home/home_page.dart';
 import 'package:toyidea_smartphone_app/presentation/login/login_page.dart';
 import 'package:toyidea_smartphone_app/presentation/signup/signup_page.dart';
-import 'package:toyidea_smartphone_app/presentation/simple_input/simple_input_page.dart';
-import 'package:toyidea_smartphone_app/presentation/simple_list/simple_list_page.dart';
+import 'package:toyidea_smartphone_app/presentation/tr_sk_ra_um/simple_input/simple_input_page.dart';
+import 'package:toyidea_smartphone_app/presentation/tr_sk_ra_um/simple_list/simple_list_page.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
