@@ -22,7 +22,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 4,
+        length: 5,
         child: Column(
           children: [
             Container(
@@ -34,8 +34,16 @@ class _CustomTabBarState extends State<CustomTabBar> {
                   labelColor: Colors.blue,
                   tabs: [
                     Tab(
+                      // icon: Icon(Icons.directions_transit),
+                      text: "全部",
+                      // child: Text(
+                      //   '全部',
+                      //   style: TextStyle(fontSize: 15),
+                      // ),
+                    ),
+                    Tab(
                         // icon: Icon(Icons.directions_transit),
-                        text: '全部'),
+                        text: '起のみ'),
                     Tab(
                         // icon: Icon(Icons.directions_transit),
                         text: '空のみ'),

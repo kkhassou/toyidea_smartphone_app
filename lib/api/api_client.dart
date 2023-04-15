@@ -24,13 +24,14 @@ Future<void> testCallApi() async {
   }
 }
 
-Future<void> s_r_u_input_api(
-    String _userId, String _sky, String _rain, String _umbrella) async {
+Future<void> s_r_u_input_api(String _userId, String _trigger, String _sky,
+    String _rain, String _umbrella) async {
   final String apiUrl = UrlConstant.apiUrl + "skyRainUmbrellaInput";
 
   try {
     final response = await http.post(Uri.parse(apiUrl), body: {
       "userId": _userId,
+      "trigger": _trigger,
       "sky": _sky,
       "rain": _rain,
       "umbrella": _umbrella
@@ -71,6 +72,7 @@ Future<List<Map<String, dynamic>>> s_r_u_list_api(String _userId) async {
       print(jsonData.toString());
       return jsonData
           .map((item) => {
+                "trigger": item["trigger"],
                 "sky": item["sky"],
                 "rain": item["rain"],
                 "umbrella": item["umbrella"],

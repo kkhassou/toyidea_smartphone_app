@@ -19,13 +19,13 @@ extension ErazeRangeExtension on ErazeRange {
   String get description {
     switch (this) {
       case ErazeRange.only_umbrella:
-        return '傘だけ残す';
+        return '傘だけ消す';
       case ErazeRange.umbrella_rain:
-        return '傘と雨を残す';
+        return '傘と雨を消す';
       case ErazeRange.umbrella_rain_sky:
-        return '傘と雨と空を残す';
+        return '傘と雨と空を消す';
       case ErazeRange.umbrella_rain_sky_triger:
-        return '傘と雨と空と起を残す';
+        return '全部消す';
       default:
         return '';
     }
@@ -362,6 +362,7 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                             // ここでAPIを呼ぶ
                             s_r_u_input_api(
                                 _auth.currentUser?.uid as String,
+                                _trigerController.text,
                                 _skyController.text,
                                 _rainController.text,
                                 _umbrellaController.text);
@@ -427,6 +428,7 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                             if (result != null &&
                                 result is Map<String, dynamic>) {
                               setState(() {
+                                _trigerController.text = result['sky'];
                                 _skyController.text = result['sky'];
                                 _rainController.text = result['rain'];
                                 _umbrellaController.text = result['umbrella'];

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../api/api_client.dart';
 
-class CustomCard extends StatelessWidget {
+class CustomCard extends StatefulWidget {
+  @override
+  State<CustomCard> createState() => _CustomCardState();
+}
+
+class _CustomCardState extends State<CustomCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
