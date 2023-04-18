@@ -19,6 +19,7 @@ class _SimpleListPageState extends State<SimpleListPage> {
   bool umbrellaDisp = true;
   int nowTabIndex = 0;
   List<Map<String, dynamic>>? items;
+  List<Map<String, dynamic>>? allItems;
   List<String> menuItems = [];
   Future<void>? _initDataFuture;
   // これ、ログイン状態だと、ホーム画面に戻す
@@ -52,11 +53,12 @@ class _SimpleListPageState extends State<SimpleListPage> {
                 'umbrellaDisp': true,
               })
           .toList();
+      allItems = items;
       menuItems = value
           .map<String>((item) => item['trigger'].toString())
           .toSet()
           .toList();
-      menuItems.add("全部");
+      menuItems.insert(0, "全部");
     });
   }
 
@@ -132,6 +134,21 @@ class _SimpleListPageState extends State<SimpleListPage> {
     });
   }
 
+  void _onSelected(String newValue) {
+    setState(() {
+      if (newValue == "全部") {
+        items = allItems;
+      } else {
+        items = allItems!
+            .where((item) => item['trigger'].toString().contains(newValue))
+            .map((item) => {
+                  ...item,
+                })
+            .toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
@@ -159,11 +176,15 @@ class _SimpleListPageState extends State<SimpleListPage> {
                 ),
                 body: Column(children: [
                   Container(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.all(5),
                       child: CustomTabBar(onTabSelected: _onTabTapped)),
                   Container(
-                      padding: EdgeInsets.all(16),
-                      child: CustomDropdownMenu(menuItems: menuItems)),
+                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Container(
+                        child: CustomDropdownMenu(
+                            menuItems: menuItems, onSelected: _onSelected),
+                        alignment: Alignment.centerLeft,
+                      )),
                   Expanded(
                     child: ListView.builder(
                       itemCount: items != null ? items!.length : 0,

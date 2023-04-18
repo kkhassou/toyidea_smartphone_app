@@ -39,8 +39,8 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
   TextEditingController _rainController = TextEditingController();
   TextEditingController _umbrellaController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  ErazeRange _erazeRange = ErazeRange.only_umbrella;
-  var selectedValue;
+  // ErazeRange _erazeRange = ErazeRange.only_umbrella;
+  String selectedValue = ErazeRange.only_umbrella.toString();
   // これ、ログイン状態だと、ホーム画面に戻す
   checkAuthentication() async {
     _auth.authStateChanges().listen((user) {
@@ -366,19 +366,21 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                                 _skyController.text,
                                 _rainController.text,
                                 _umbrellaController.text);
-                            if (_erazeRange == ErazeRange.only_umbrella) {
+                            if (selectedValue ==
+                                ErazeRange.only_umbrella.toString()) {
                               _umbrellaController.clear();
-                            } else if (_erazeRange ==
-                                ErazeRange.umbrella_rain) {
+                            } else if (selectedValue ==
+                                ErazeRange.umbrella_rain.toString()) {
                               _rainController.clear();
                               _umbrellaController.clear();
-                            } else if (_erazeRange ==
-                                ErazeRange.umbrella_rain_sky) {
+                            } else if (selectedValue ==
+                                ErazeRange.umbrella_rain_sky.toString()) {
                               _skyController.clear();
                               _rainController.clear();
                               _umbrellaController.clear();
-                            } else if (_erazeRange ==
-                                ErazeRange.umbrella_rain_sky_triger) {
+                            } else if (selectedValue ==
+                                ErazeRange.umbrella_rain_sky_triger
+                                    .toString()) {
                               _trigerController.clear();
                               _skyController.clear();
                               _rainController.clear();
