@@ -1,13 +1,21 @@
 import 'dart:ffi';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toyidea_smartphone_app/presentation/group/group_code_add_page.dart';
+// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as bottomSheet;
 
+import '../../api/api_client.dart';
 import '../../widgets/custom_card.dart';
 import '../../widgets/menu_button.dart';
 import '../../widgets/randam_icon.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../group/group_code_publish_page.dart';
+import '../group/group_list_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,6 +35,18 @@ class _HomePageState extends State<HomePage> {
   AppTypeList appTypeList = AppTypeList.TrigerSkyRainUmbrella;
   String startComment = "さあ今日も\n　起空雨傘で考えよう!";
   double startComment_fontSize = 30;
+  String nickName = "";
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // これ、ログイン状態だと、ホーム画面に戻す
+  void checkAuthentication() async {
+    _auth.authStateChanges().listen((user) {
+      if (user == null) {
+      } else {
+        initData();
+      }
+    });
+  }
+
   void _onMenuButonTap(int index) {
     print("index");
     print(index);
@@ -43,6 +63,20 @@ class _HomePageState extends State<HomePage> {
         appTypeList = AppTypeList.Integration;
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.checkAuthentication();
+  }
+
+  Future<void> initData() async {
+    // DBから空雨傘一覧データを取得
+    final value = await get_user_info_api(_auth.currentUser!.uid.toString());
+    nickName = value.map<String>((item) => item['nickName'].toString()).first;
+    // TODO:nickNmaeの格納をuidとセットで行う
+    // sinupの時にできるかと思ったけど、sinupの時だと、まだ、uidが取れないのでダメだった。
   }
 
   @override
@@ -129,29 +163,95 @@ class _HomePageState extends State<HomePage> {
                               : null,
                         )),
                   ]),
-                  //   Padding(
-                  //       padding:
-                  //           EdgeInsets.fromLTRB(150, underbutton_from_top!, 0, 0),
-                  //       child: ElevatedButton(
-                  //         style: ElevatedButton.styleFrom(
-                  //             backgroundColor: Colors.orange),
-                  //         child: Text(
-                  //           "過去の空雨傘",
-                  //           style: TextStyle(fontSize: 30),
-                  //         ),
-                  //         onPressed: user != null ? () {} : null,
-                  //       )),
-                  //   Padding(
-                  //       padding: const EdgeInsets.fromLTRB(150, 30, 0, 0),
-                  //       child: ElevatedButton(
-                  //         style: ElevatedButton.styleFrom(
-                  //             backgroundColor: Colors.orange),
-                  //         child: Text(
-                  //           "模範の空雨傘",
-                  //           style: TextStyle(fontSize: 30),
-                  //         ),
-                  //         onPressed: user != null ? () {} : null,
-                  //       )),
+                  user != null
+                      ? Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                          child: Container(
+                            height: 80,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Text("グループメニュー"),
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.green),
+                                          child: Text(
+                                            "加入一覧",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            showModalBottomSheet(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return GroupListPage();
+                                                });
+                                          },
+                                        )),
+                                    Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.green),
+                                          child: Text(
+                                            "コード追加",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            showModalBottomSheet(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return GroupCodeAddPage();
+                                                });
+                                          },
+                                        )),
+                                    Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.green),
+                                          child: Text(
+                                            "コード発行",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            showModalBottomSheet(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return GroupCodePublishPage();
+                                                });
+                                          },
+                                        )),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),

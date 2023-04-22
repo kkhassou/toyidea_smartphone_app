@@ -20,28 +20,32 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: _selectedValue,
-      items: widget.menuItems != null
-          ? widget.menuItems!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(value, textAlign: TextAlign.left),
-                ),
-              );
-            }).toList()
-          : [],
-      onChanged: (newValue) {
-        setState(() {
-          _selectedValue = newValue;
-          widget.onSelected!(newValue!);
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Selected: $newValue')),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      child: DropdownButton<String>(
+        value: _selectedValue,
+        isExpanded: true,
+        items: widget.menuItems != null
+            ? widget.menuItems!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(value, textAlign: TextAlign.left),
+                  ),
+                );
+              }).toList()
+            : [],
+        onChanged: (newValue) {
+          setState(() {
+            _selectedValue = newValue;
+            widget.onSelected!(newValue!);
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Selected: $newValue')),
+          );
+        },
+      ),
     );
   }
 }

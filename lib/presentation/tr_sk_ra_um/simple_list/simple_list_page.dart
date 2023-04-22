@@ -23,7 +23,7 @@ class _SimpleListPageState extends State<SimpleListPage> {
   List<String> menuItems = [];
   Future<void>? _initDataFuture;
   // これ、ログイン状態だと、ホーム画面に戻す
-  checkAuthentication() async {
+  void checkAuthentication() async {
     _auth.authStateChanges().listen((user) {
       if (user == null) {
         Navigator.pop(context);
@@ -39,7 +39,6 @@ class _SimpleListPageState extends State<SimpleListPage> {
   }
 
   Future<void> initData() async {
-    await checkAuthentication();
     // DBから空雨傘一覧データを取得
     final value = await s_r_u_list_api(_auth.currentUser!.uid.toString());
     setState(() {
