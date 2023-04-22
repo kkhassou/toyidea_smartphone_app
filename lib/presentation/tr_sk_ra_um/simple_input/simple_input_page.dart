@@ -42,7 +42,7 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
   // ErazeRange _erazeRange = ErazeRange.only_umbrella;
   String selectedValue = ErazeRange.only_umbrella.toString();
   // これ、ログイン状態だと、ホーム画面に戻す
-  checkAuthentication() async {
+  void checkAuthentication() async {
     _auth.authStateChanges().listen((user) {
       if (user == null) {
         Navigator.pop(context);
@@ -134,6 +134,12 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                       ],
                     ),
                     TextFormField(
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 0.0),
+                        border: OutlineInputBorder(),
+                      ),
                       controller: _trigerController,
                     ),
                     SizedBox(height: 5.0),
@@ -181,6 +187,12 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                       ],
                     ),
                     TextFormField(
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 0.0),
+                        border: OutlineInputBorder(),
+                      ),
                       controller: _skyController,
                     ),
                     SizedBox(height: 5.0),
@@ -242,6 +254,12 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                       ],
                     ),
                     TextFormField(
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 0.0),
+                        border: OutlineInputBorder(),
+                      ),
                       controller: _rainController,
                     ),
                     SizedBox(height: 5.0),
@@ -305,6 +323,12 @@ class _SimpleInputPageState extends State<SimpleInputPage> {
                       ],
                     ),
                     TextFormField(
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 0.0),
+                        border: OutlineInputBorder(),
+                      ),
                       controller: _umbrellaController,
                     ),
                     SizedBox(height: 5.0),
