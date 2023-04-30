@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../api/api_client.dart';
-
 class CustomCard extends StatefulWidget {
   @override
   State<CustomCard> createState() => _CustomCardState();

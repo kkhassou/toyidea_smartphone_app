@@ -4,10 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toyidea_smartphone_app/presentation/group/group_code_add_page.dart';
-// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as bottomSheet;
 
-import '../../api/api_client.dart';
+import '../../api/user_info_api_client.dart';
 import '../../widgets/custom_card.dart';
 import '../../widgets/menu_button.dart';
 import '../../widgets/randam_icon.dart';
@@ -33,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   double? underbutton_from_top;
   double? uppertitle_from_top;
   AppTypeList appTypeList = AppTypeList.TrigerSkyRainUmbrella;
-  String startComment = "さあ今日も\n　起空雨傘で考えよう!";
+  String startComment = "今日も\n　起空雨傘で考えよう!";
   double startComment_fontSize = 30;
   String nickName = "";
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -53,11 +51,11 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       if (index == 1) {
         appTypeList = AppTypeList.TrigerSkyRainUmbrella;
-        startComment = "さあ今日も\n　起空雨傘で考えよう!";
+        startComment = "今日も\n　起空雨傘で考えよう!";
         startComment_fontSize = 30;
       } else if (index == 2) {
         appTypeList = AppTypeList.Innovation;
-        startComment = "さあ今日も\n　イノベーションを起こそう!";
+        startComment = "今日も\n　イノベーションを起こそう!";
         startComment_fontSize = 25;
       } else if (index == 3) {
         appTypeList = AppTypeList.Integration;
@@ -73,8 +71,15 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> initData() async {
     // DBから空雨傘一覧データを取得
-    final value = await get_user_info_api(_auth.currentUser!.uid.toString());
-    nickName = value.map<String>((item) => item['nickName'].toString()).first;
+    // insert_user_info_api(_auth.currentUser!.email.toString(), "かけっち");
+    final value =
+        await get_user_nickname_api(_auth.currentUser!.email.toString());
+    if (value.length != 0) {
+      setState(() {
+        nickName =
+            value.map<String>((item) => item['nickname'].toString()).first;
+      });
+    }
     // TODO:nickNmaeの格納をuidとセットで行う
     // sinupの時にできるかと思ったけど、sinupの時だと、まだ、uidが取れないのでダメだった。
   }
@@ -130,10 +135,20 @@ class _HomePageState extends State<HomePage> {
             ),
             body: Container(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   user != null ? Container() : Center(child: CustomCard()),
+                  nickName != ""
+                      ? Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+                          child: Text(
+                            nickName,
+                            style: TextStyle(fontSize: startComment_fontSize),
+                            textAlign: TextAlign.left,
+                          ))
+                      : Container(),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
                     child: Text(
                       startComment,
                       style: TextStyle(fontSize: startComment_fontSize),
