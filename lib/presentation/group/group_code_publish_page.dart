@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../api/api_client.dart';
 import 'dart:math';
+
+import '../../api/group_list_api_client.dart';
 
 class GroupCodePublishPage extends StatefulWidget {
   const GroupCodePublishPage({super.key});

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../api/api_client.dart';
+import '../../api/group_member_list_api_client.dart';
 
 class GroupCodeAddPage extends StatefulWidget {
   const GroupCodeAddPage({super.key});
@@ -81,10 +81,10 @@ class _GroupCodeAddPageState extends State<GroupCodeAddPage> {
                         });
                       } else {
                         await group_member_list_input_api(
-                          _auth.currentUser!.uid.toString(),
-                          "",
-                          _codeController.text,
-                        );
+                            _auth.currentUser!.uid.toString(),
+                            "",
+                            _codeController.text,
+                            _auth.currentUser!.email.toString());
                       }
                     },
                   )),

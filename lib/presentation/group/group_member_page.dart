@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../api/api_client.dart';
+import '../../api/group_member_list_api_client.dart';
 
 class GroupMemberPage extends StatefulWidget {
-  const GroupMemberPage({super.key});
+  const GroupMemberPage({super.key, required this.code});
+  final String code;
   @override
   State<GroupMemberPage> createState() => _GroupMemberPageState();
 }
@@ -35,8 +36,7 @@ class _GroupMemberPageState extends State<GroupMemberPage> {
     await checkAuthentication();
     // DBから空雨傘一覧データを取得
     // final value = await s_r_u_list_api(_auth.currentUser!.uid.toString());
-    final value =
-        await belong_group_list_api(_auth.currentUser!.uid.toString());
+    final value = await get_group_member_list(widget.code);
     setState(() {
       items = value
           .cast<Map<String, dynamic>>()
@@ -60,14 +60,10 @@ class _GroupMemberPageState extends State<GroupMemberPage> {
                   margin: EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Text(items![index]["name"]!),
-                      Container(width: 20),
-                      items![index]["code"] != null
-                          ? Text(items![index]["code"]!)
-                          : Container(
-                              // いや、自分で作成したチームだからこそ、招待のためにコードコピーできた方がいいな
-                              child: Text("自分で作成したチーム"),
-                            )
+                      Text(
+                        items![index]["nickname"]!,
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ],
                   ),
                 ),

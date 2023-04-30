@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toyidea_smartphone_app/presentation/group/group_member_page.dart';
 
-import '../../api/api_client.dart';
+import '../../api/group_list_api_client.dart';
 
 class GroupListPage extends StatefulWidget {
   const GroupListPage({super.key});
@@ -102,6 +103,26 @@ class _GroupListPageState extends State<GroupListPage> {
                               Clipboard.setData(
                                   ClipboardData(text: items![index]["code"]!));
                             },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.amber),
+                              child: Text(
+                                "メンバー",
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return GroupMemberPage(
+                                          code: items![index]["code"]!);
+                                    });
+                              },
+                            ),
                           )
                         ],
                       ),

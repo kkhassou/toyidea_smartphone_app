@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../api/api_client.dart';
+import '../../api/user_info_api_client.dart';
 import '../../widgets/randam_icon.dart';
 
 class SignupPage extends StatefulWidget {
@@ -11,6 +11,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  TextEditingController _nicknameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -53,6 +54,14 @@ class _SignupPageState extends State<SignupPage> {
                 children: [
                   SizedBox(height: 40.0),
                   TextField(
+                    controller: _nicknameController,
+                    decoration: InputDecoration(
+                      labelText: 'ニックネーム',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
@@ -80,16 +89,40 @@ class _SignupPageState extends State<SignupPage> {
                           Color.fromARGB(200, 30, 144, 255)),
                     ),
                     onPressed: () async {
-                      try {
-                        // メール/パスワードでユーザー登録
-                        final result =
-                            await _auth.createUserWithEmailAndPassword(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        );
-                      } catch (e) {
-                        /* --- 省略 --- */
-                        print("新規登録失敗");
+                      if (_nicknameController.text != "" &&
+                          _emailController.text != "" &&
+                          _passwordController.text != "") {
+                        try {
+                          // メール/パスワードでユーザー登録
+                          final result =
+                              await _auth.createUserWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          );
+                          insert_user_info_api(
+                              _emailController.text, _nicknameController.text);
+                        } catch (e) {
+                          /* --- 省略 --- */
+                          print("新規登録失敗");
+                        }
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("エラー"),
+                                content:
+                                    Text("ニックネーム、メールアドレス、パスワードの３つを入力してください。"),
+                                actions: <Widget>[
+                                  ElevatedButton(
+                                    child: Text("OK"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            });
                       }
                     },
                     child: Text('新規登録'),
